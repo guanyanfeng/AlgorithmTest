@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.utstarcom</groupId>
+    <artifactId>algorithmtest</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>algorithmtest</name>
+    <description>utstarcom algorithmtest</description>
+    <url>http://maven.apache.org</url>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.6.RELEASE</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <!-- version properties -->
+        <product.name>BI</product.name>
+        <product.load>6.0.3</product.load>
+
+        <!-- dependencies versions -->
+        <springfox-swagger.version>2.9.2</springfox-swagger.version>
+        <guava.version>26.0-jre</guava.version>
+        <uapollo-client.version>1.0.1</uapollo-client.version>
+        <spring-cloud-context.version>2.0.1.RELEASE</spring-cloud-context.version>
+        <udnt-common-version>1.0.0-SNAPSHOT</udnt-common-version>
+
+        <!-- plugins version -->
+        <maven-clean-plugin-version>3.0.0</maven-clean-plugin-version>
+        <maven-compiler-plugin-version>3.6.1</maven-compiler-plugin-version>
+        <maven-dependency-plugin-version>3.0.1</maven-dependency-plugin-version>
+        <maven-resources-plugin-version>3.0.2</maven-resources-plugin-version>
+        <maven-assembly-plugin-version>2.6</maven-assembly-plugin-version>
+        <exec-maven-plugin-version>1.6.0</exec-maven-plugin-version>
+
+        <!-- exec copy releaseNotes -->
+        <copyReleaseNotes.bat>${basedir}/src/main/assembly/copyReleaseNotes.bat</copyReleaseNotes.bat>
+        <copyReleaseNotes.sh>${basedir}/src/main/assembly/copyReleaseNotes.sh</copyReleaseNotes.sh>
+        <srcReleaseNotes>${basedir}/${project.artifactId.uppercase}_ReleaseNotes.doc</srcReleaseNotes>
+        <dstReleaseNotes>${project.build.directory}/${project.build.finalName}_ReleaseNotes.doc</dstReleaseNotes>
+        <srcUnitTestReports>${basedir}/${project.artifactId.uppercase}_UnitTestReports.doc</srcUnitTestReports>
+        <dstUnitTestReports>${project.build.directory}/${project.build.finalName}_单元测试和联调报告.doc</dstUnitTestReports>
+
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <properties>
+                <copyReleaseNotes>${copyReleaseNotes.bat}</copyReleaseNotes>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <properties>
+                <copyReleaseNotes>${copyReleaseNotes.sh}</copyReleaseNotes>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-swagger.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ctrip.framework.apollo</groupId>
+            <artifactId>uapollo-client</artifactId>
+            <version>${uapollo-client.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+            <version>${spring-cloud-context.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>cn.utstarcom</groupId>
+            <artifactId>udnt-common</artifactId>
+            <version>${udnt-common-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${product.name}${product.load}_${project.artifactId.uppercase}_${project.version}</finalName>
+        <plugins>
+            <!-- <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+                </plugin> -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${maven-clean-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin> -->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>properties-to-uppercase</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>project.artifactId.uppercase</name>
+                            <regex>.*</regex>
+                            <value>${project.artifactId}</value>
+                            <replacement>$0</replacement>
+                            <failIfNoMatch>true</failIfNoMatch>
+                            <toUpperCase>true</toUpperCase>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin-version}</version><!--$NO-MVN-MAN-VER$ -->
+                <executions>
+                    <execution>
+                        <id>exec-copyReleaseNotes</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${copyReleaseNotes}</executable>
+                            <arguments>
+                                <argument>${srcReleaseNotes}</argument>
+                                <argument>${dstReleaseNotes}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>exec-copyUnitTestReports</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${copyReleaseNotes}</executable>
+                            <arguments>
+                                <argument>${srcUnitTestReports}</argument>
+                                <argument>${dstUnitTestReports}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>maven-public</id>
+            <url>http://172.19.97.100:9527/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-public</id>
+            <url>http://172.19.97.100:9527/repository/maven-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <url>  
+                http://172.19.97.100:9527/repository/maven-releases/
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <url>  
+                http://172.19.97.100:9527/repository/maven-snapshots/ 
+            </url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

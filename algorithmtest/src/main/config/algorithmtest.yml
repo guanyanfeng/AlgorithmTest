@@ -1,0 +1,9 @@
+#spring boot properties
+#http://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/htmlsingle/#common-application-properties
+
+# EMBEDDED SERVER CONFIGURATION (ServerProperties)
+server:
+  # Network address to which the server should bind to.
+  address: 0.0.0.0
+  # Server HTTP port.
+  port: 9797

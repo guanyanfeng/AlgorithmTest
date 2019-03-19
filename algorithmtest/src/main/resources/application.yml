@@ -1,0 +1,36 @@
+#spring boot properties
+#http://docs.spring.io/spring-boot/docs/2.0.3.RELEASE/reference/htmlsingle/#common-application-properties
+
+#spring cloud properties
+#http://cloud.spring.io/spring-cloud-static/Dalston.SR1/#_appendix_compendium_of_configuration_properties
+
+# IDENTITY (ContextIdApplicationContextInitializer)
+spring:
+  application:
+    name: algorithmtest
+  template:
+    verstion: 1.0.0
+    
+# MANAGEMENT HTTP SERVER (ManagementServerProperties)
+management:
+  security:
+    # false security.
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    beans:
+      cache:
+        time-to-live: 10s
+    health:
+      show-details: always
+  metrics:
+    web:
+      server:
+        auto-time-requests: true
+
+# UAPOLLO ENV      
+uapollo:
+  env: DEV
